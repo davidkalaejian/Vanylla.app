@@ -65,3 +65,7 @@ Sections arrive with a glassy blur-in; the hero, washes and floating cards move 
 window are frosted. With `prefers-reduced-motion: reduce`, content is shown at once with no blur, parallax,
 drifting or autoplaying video. With `prefers-reduced-transparency: reduce`, glass turns opaque. If the
 script fails to load, everything is shown after three seconds.
+
+## Releasing a change
+
+GitHub Pages lets browsers cache files for 10 minutes. The pages load `assets/css/site.css?v=N` and `assets/js/site.js?v=N`; bump `N` on every page whenever the stylesheet or script changes, so a visitor never gets a new page with an old stylesheet.

@@ -788,7 +788,6 @@ p, li { text-wrap: pretty; }
   background: conic-gradient(from 140deg, rgb(var(--peach) / .9), rgba(243, 215, 168, .8), rgb(var(--lilac) / .8), rgb(var(--warm) / .8), rgb(var(--peach) / .9));
   filter: blur(18px); opacity: .45;
 }
-.plans-foot { display: flex; justify-content: center; margin-top: 40px; }
 
 /* ---------- Final CTA ---------- */
 .final { text-align: center; padding-bottom: clamp(110px, 13vw, 170px); }
