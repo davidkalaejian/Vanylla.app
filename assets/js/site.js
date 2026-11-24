@@ -2,10 +2,9 @@
 
 // ---------------------------------------------------------------------------------------------------------------
 // The App Store link. This is the ONLY place it lives.
-// Leave it empty ("") until the App Store listing exists: every download button then reads
-// "Coming soon to the App Store" and points to the download section of the landing page.
-// Set it to the full listing URL, e.g. "https://apps.apple.com/app/id0000000000", and every button on every page
-// reads "Download on the App Store" and links there.
+// Every download button reads "Download on the App Store". Set this to the full listing URL, e.g.
+// "https://apps.apple.com/app/id0000000000", and every button on every page links there. While it is empty the
+// buttons point to the download section of the landing page (set it before the site is shared).
 // ---------------------------------------------------------------------------------------------------------------
 const APP_STORE_URL = "";
 
@@ -26,18 +25,12 @@ const APP_STORE_URL = "";
     var url = String(APP_STORE_URL || "").trim();
     var valid = /^https:\/\/[^\s"'<>]+$/.test(url);
     $$("[data-store]").forEach(function (a) {
-      var line = $("[data-store-line]", a);
+      a.setAttribute("aria-label", "Download on the App Store");
       if (valid) {
         a.setAttribute("href", url);
         a.setAttribute("rel", "noopener");
-        a.setAttribute("aria-label", "Download on the App Store");
-        if (line) line.textContent = "Download on the";
-      } else {
-        // Keep the authored in-page target (#download, or index.html#download on other pages).
-        a.removeAttribute("rel");
-        a.setAttribute("aria-label", "Coming soon to the App Store");
-        if (line) line.textContent = "Coming soon to the";
       }
+      // Otherwise keep the authored in-page target (#download, or index.html#download on other pages).
     });
   }
 
@@ -111,10 +104,11 @@ const APP_STORE_URL = "";
             el.style.transform = "translate3d(" + (mx * d * 70).toFixed(2) + "px," + (-y * d * 1.6 + my * d * 40).toFixed(2) + "px,0)";
           });
           if (heroCopy) {
-            var p = clamp(y / (vh * 0.75), 0, 1);
-            heroCopy.style.opacity = String(1 - p * 0.85);
-            heroCopy.style.transform = "translate3d(0," + (y * 0.22).toFixed(1) + "px,0) scale(" + (1 - p * 0.04).toFixed(4) + ")";
-            heroCopy.style.filter = p > 0.01 ? "blur(" + (p * 9).toFixed(2) + "px)" : "";
+            var p = clamp((y - vh * 0.2) / (vh * 0.55), 0, 1);
+            heroCopy.style.opacity = String(1 - p);
+            heroCopy.style.transform = p > 0 ? "translate3d(0," + (y * 0.12).toFixed(1) + "px,0)" : "";
+            heroCopy.style.filter = p > 0.01 ? "blur(" + (p * 6).toFixed(2) + "px)" : "";
+            heroCopy.style.pointerEvents = p > 0.9 ? "none" : "";
           }
         }
       }
@@ -146,7 +140,7 @@ const APP_STORE_URL = "";
     var onPref = function () {
       if (reduced()) {
         depthEls.concat(shiftEls).forEach(function (el) { el.style.transform = ""; });
-        if (heroCopy) { heroCopy.style.opacity = ""; heroCopy.style.transform = ""; heroCopy.style.filter = ""; }
+        if (heroCopy) { heroCopy.style.opacity = ""; heroCopy.style.transform = ""; heroCopy.style.filter = ""; heroCopy.style.pointerEvents = ""; }
         washes.forEach(function (w) { w.style.removeProperty("--shift"); });
       }
       request();
@@ -205,6 +199,7 @@ const APP_STORE_URL = "";
   }
 
   function initTabs() {
+    var cards = $$("[data-tool]");
     $$("[data-tabs]").forEach(function (list) {
       var tabs = $$('[role="tab"]', list);
       var panel = document.getElementById(tabs[0].getAttribute("aria-controls"));
@@ -224,8 +219,24 @@ const APP_STORE_URL = "";
         }
         if (focus) tab.focus();
         moveThumb(list, tab);
+        cards.forEach(function (c) { c.classList.toggle("is-current", c.getAttribute("data-tool") === tab.id); });
       }
       tabs.forEach(function (t) { t.addEventListener("click", function () { select(t, false); }); });
+      // Light, Curves, Color wheels and 8-band HSL cards switch the phone to their screen.
+      $$("[data-show-tab]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var tab = document.getElementById(btn.getAttribute("data-show-tab"));
+          if (!tab || tabs.indexOf(tab) < 0) return;
+          select(tab, false);
+          if (window.innerWidth <= 1000 && panel) {
+            var r = panel.getBoundingClientRect();
+            if (r.top < 70 || r.bottom > window.innerHeight) {
+              panel.scrollIntoView({ block: "center", behavior: reduced() ? "auto" : "smooth" });
+            }
+          }
+        });
+      });
+      cards.forEach(function (c) { c.classList.toggle("is-current", c.getAttribute("data-tool") === tabs[0].id); });
       list.addEventListener("keydown", function (e) {
         var i = tabs.indexOf(document.activeElement);
         if (i < 0) return;
@@ -269,6 +280,7 @@ const APP_STORE_URL = "";
     var stage = $("[data-lab-stage]", lab);
     var orig = $("[data-lab-orig]", lab);
     var looks = $$("[data-lab-looks] img", lab);
+    var thumbs = $$("[data-radio=\"look\"] [role=\"radio\"]", lab);
     var nameEl = $("[data-lab-name]", lab);
     var range = $("[data-lab-range]", lab);
     var live = $("[data-lab-live]", lab);
@@ -300,6 +312,10 @@ const APP_STORE_URL = "";
           img.loading = "eager";
           img.src = lookSrc(photo, img.getAttribute("data-look"));
           img.width = p.w; img.height = p.h;
+        });
+        thumbs.forEach(function (btn) {
+          var t = $("[data-thumb]", btn);
+          if (t) t.src = "assets/img/looks/thumb-" + photo + "-" + btn.getAttribute("data-value") + ".jpg";
         });
         var current = looks.filter(function (img) { return img.getAttribute("data-look") === state.look; });
         whenReady([orig].concat(current)).then(function () { stage.classList.remove("is-swapping"); announce(); });
@@ -347,6 +363,13 @@ const APP_STORE_URL = "";
   }
 
   /* ---------- One Recipe, many photos ---------- */
+  // Each demo Recipe is a saved edit with its own name; the renders show its filter on three photos.
+  var DEMO_RECIPES = {
+    "golden-warm": "Beach days",
+    "airy-cool": "Sea air",
+    "moody-blue": "Blue hour",
+    "mono-contrast": "Sunday paper"
+  };
   function initPreset() {
     var preset = $("[data-preset]");
     if (!preset) return;
@@ -374,7 +397,7 @@ const APP_STORE_URL = "";
         img = document.createElement("img");
         img.alt = ""; img.decoding = "async";
         img.setAttribute("data-look", look);
-        img.src = lookSrc("beach", look);
+        img.src = "assets/img/looks/thumb-beach-" + look + ".jpg";
         swatch.appendChild(img);
       }
       $$("img", swatch).forEach(function (i) { i.classList.toggle("is-on", i === img); });
@@ -385,7 +408,7 @@ const APP_STORE_URL = "";
     }
     function run() {
       clearTimers();
-      var name = LOOKS[recipe];
+      var name = DEMO_RECIPES[recipe];
       var wait = applied ? 380 : 0;
       reset();
       preset.classList.remove("is-flowing");
@@ -410,9 +433,9 @@ const APP_STORE_URL = "";
     }
     initRadio($('[data-radio="recipe"]', preset), function (v, user) {
       recipe = v;
-      var name = LOOKS[v];
+      var name = DEMO_RECIPES[v];
       nameEl.classList.add("is-swapping");
-      setTimeout(function () { nameEl.textContent = name; filterEl.textContent = name; nameEl.classList.remove("is-swapping"); }, reduced() ? 0 : 220);
+      setTimeout(function () { nameEl.textContent = name; filterEl.textContent = LOOKS[v]; nameEl.classList.remove("is-swapping"); }, reduced() ? 0 : 220);
       setSwatch(v);
       if (applied && user) run();
     });
