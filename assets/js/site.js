@@ -2,7 +2,7 @@
 
 // ---------------------------------------------------------------------------------------------------------------
 // The App Store link. This is the ONLY place it lives.
-// Every download button reads "Download on the App Store". Set this to the full listing URL, e.g.
+// Every download button is Apple's "Download on the App Store" badge. Set this to the full listing URL, e.g.
 // "https://apps.apple.com/app/id0000000000", and every button on every page links there. While it is empty the
 // buttons point to the download section of the landing page (set it before the site is shared).
 // ---------------------------------------------------------------------------------------------------------------
@@ -25,7 +25,6 @@ const APP_STORE_URL = "";
     var url = String(APP_STORE_URL || "").trim();
     var valid = /^https:\/\/[^\s"'<>]+$/.test(url);
     $$("[data-store]").forEach(function (a) {
-      a.setAttribute("aria-label", "Download on the App Store");
       if (valid) {
         a.setAttribute("href", url);
         a.setAttribute("rel", "noopener");
@@ -325,23 +324,33 @@ const APP_STORE_URL = "";
     initRadio($('[data-radio="look"]', lab), function (v) { setLook(v); });
     initRadio($('[data-radio="photo"]', lab), function (v) { setPhoto(v); });
 
-    range.addEventListener("input", function () { setPos(parseFloat(range.value)); });
-    // Pointer drag anywhere on the photo (the range input handles keyboard and assistive tech).
-    var dragging = false;
+    range.addEventListener("input", function () { introCancelled = true; setPos(parseFloat(range.value)); });
+    // Mouse, touch and pen: press anywhere on the photo to move the divider there, then drag. The range input
+    // underneath handles the keyboard and assistive tech. touch-action: pan-y (CSS) leaves vertical page scroll to
+    // the browser on phones, so only horizontal drags reach these handlers.
+    $$("img", stage).forEach(function (img) { img.draggable = false; });
+    stage.addEventListener("dragstart", function (e) { e.preventDefault(); });
+    var dragging = null;
     function fromEvent(e) {
       var r = stage.getBoundingClientRect();
       setPos(((e.clientX - r.left) / r.width) * 100);
     }
     stage.addEventListener("pointerdown", function (e) {
-      if (e.button !== 0) return;
-      dragging = true;
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      e.preventDefault();
+      dragging = e.pointerId;
       introCancelled = true;
-      stage.setPointerCapture && stage.setPointerCapture(e.pointerId);
+      if (stage.setPointerCapture) { try { stage.setPointerCapture(e.pointerId); } catch (err) { /* capture is optional */ } }
       fromEvent(e);
     });
-    stage.addEventListener("pointermove", function (e) { if (dragging) fromEvent(e); });
+    stage.addEventListener("pointermove", function (e) {
+      if (dragging === e.pointerId) { e.preventDefault(); fromEvent(e); }
+    });
     ["pointerup", "pointercancel", "lostpointercapture"].forEach(function (t) {
-      stage.addEventListener(t, function () { dragging = false; });
+      stage.addEventListener(t, function (e) {
+        if (dragging === e.pointerId) dragging = null;
+        if (stage.hasPointerCapture && stage.hasPointerCapture(e.pointerId)) stage.releasePointerCapture(e.pointerId);
+      });
     });
 
     // First arrival: sweep the look across the photo once.
