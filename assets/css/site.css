@@ -426,36 +426,46 @@ p, li { text-wrap: pretty; }
 .hero-stage > * { position: absolute; }
 .hs-center { left: 50%; top: 0; translate: -50% 0; z-index: 3; }
 .hs-center .phone { --w: clamp(250px, 25vw, 318px); }
-.hs-left { right: calc(50% + clamp(90px, 10vw, 140px)); top: clamp(70px, 9vw, 110px); z-index: 2; }
+.hs-left { right: calc(50% + clamp(120px, 12.5vw, 178px)); top: clamp(70px, 9vw, 110px); z-index: 2; }
 .hs-left { top: clamp(96px, 11vw, 140px); }
 .hs-left .px { position: relative; }
-/* A folded iPhone Duo: one slab with the cover display's aspect (1398 x 2034), a thicker body than the phones and
-   the hinge as a darker rounded spine down its left long side. The cover display is flat, so there is no crease. */
+/* A folded iPhone Duo, drawn after the owner's reference: a light titanium frame and a thin black bezel; the hinge
+   side (left) has nearly square corners and the hinge as a slim rod along it, the free side (right) has large round
+   corners, larger at the top where the camera sits. The screen follows the same asymmetric shape. */
 .duo-device {
   --w: clamp(230px, 21vw, 290px);
   position: relative; width: var(--w); rotate: -6deg;
-  padding: calc(var(--w) * .034) calc(var(--w) * .034) calc(var(--w) * .034) calc(var(--w) * .066);
-  border-radius: calc(var(--w) * .125) calc(var(--w) * .135) calc(var(--w) * .135) calc(var(--w) * .125);
-  background: linear-gradient(150deg, #4a443e 0%, #1d1a17 22%, #121010 60%, #3b3631 100%);
+  padding: calc(var(--w) * .011) calc(var(--w) * .011) calc(var(--w) * .011) calc(var(--w) * .02);
+  border-radius: calc(var(--w) * .03) calc(var(--w) * .165) calc(var(--w) * .125) calc(var(--w) * .03);
+  background: linear-gradient(100deg, #b9b4ad 0%, #ece9e4 18%, #f7f5f1 45%, #dedad4 78%, #b3aea7 100%);
   box-shadow:
-    inset 0 0 0 1.2px rgba(255, 255, 255, .22),
-    inset 0 0 0 calc(var(--w) * .012) #0b0a09,
-    0 60px 100px -40px rgba(42, 38, 33, .5),
-    0 30px 50px -30px rgba(42, 38, 33, .38);
+    inset 0 0 0 1px rgba(255, 255, 255, .7),
+    inset 0 0 0 1.6px rgba(120, 112, 102, .35),
+    0 60px 100px -40px rgba(42, 38, 33, .45),
+    0 30px 50px -30px rgba(42, 38, 33, .32);
 }
-.duo-device::before { /* hinge spine */
-  content: ""; position: absolute; left: calc(var(--w) * -.012); top: 4%; bottom: 4%; width: calc(var(--w) * .044); border-radius: 99px;
-  background: linear-gradient(90deg, #0b0a09 0%, #2a2521 30%, #4a433c 52%, #221e1b 72%, #0b0a09 100%);
-  box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .08), 0 2px 8px rgba(0, 0, 0, .3);
+.duo-device::before { /* the hinge: a slim titanium rod along the left edge */
+  content: ""; position: absolute; left: calc(var(--w) * -.026); top: 1.2%; bottom: 1.2%; width: calc(var(--w) * .032);
+  border-radius: calc(var(--w) * .014);
+  background: linear-gradient(90deg, #a49f98 0%, #e9e6e1 38%, #faf8f5 55%, #c9c4bd 82%, #9c968f 100%);
+  box-shadow: inset 0 0 0 .6px rgba(110, 102, 94, .35), -2px 4px 10px rgba(42, 38, 33, .16);
 }
-.duo-device::after { /* faint highlight along the spine */
-  content: ""; position: absolute; left: calc(var(--w) * .008); top: 7%; bottom: 7%; width: 1px; border-radius: 1px;
-  background: linear-gradient(transparent, rgba(255, 255, 255, .34) 16%, rgba(255, 255, 255, .34) 84%, transparent);
+.duo-btn { position: absolute; display: block; background: linear-gradient(#d8d4ce, #f3f1ed 50%, #bdb8b1); box-shadow: inset 0 0 0 .5px rgba(110, 102, 94, .4); }
+.duo-btn-top { top: calc(var(--w) * -.009); height: calc(var(--w) * .011); border-radius: 2px 2px 0 0; }
+.duo-btn-top.a { left: 22%; width: 4%; }
+.duo-btn-top.b { left: 50%; width: 4%; }
+.duo-btn-top.c { left: 61%; width: 11%; }
+.duo-btn-side { right: calc(var(--w) * -.009); top: 26%; width: calc(var(--w) * .011); height: 11%; border-radius: 0 2px 2px 0;
+  background: linear-gradient(90deg, #bdb8b1, #f3f1ed 50%, #d8d4ce); }
+.duo-screen {
+  position: relative; overflow: hidden; aspect-ratio: 1398 / 2034; box-sizing: content-box;
+  border: calc(var(--w) * .014) solid #0d0c0b;
+  border-radius: calc(var(--w) * .02) calc(var(--w) * .152) calc(var(--w) * .112) calc(var(--w) * .02);
+  background: #f3efe7; transform: translateZ(0);
 }
-.duo-screen { position: relative; overflow: hidden; aspect-ratio: 1398 / 2034; border-radius: calc(var(--w) * .1); background: #f3efe7; transform: translateZ(0); }
 .duo-screen img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.duo-screen::before { /* front camera, top right, as the app's board draws the cover */
-  content: ""; position: absolute; z-index: 2; right: 6.3%; top: 4.3%; width: 7.6%; aspect-ratio: 1; border-radius: 50%;
+.duo-screen::before { /* front camera, top right */
+  content: ""; position: absolute; z-index: 2; right: 7%; top: 4.2%; width: 7%; aspect-ratio: 1; border-radius: 50%;
   background: radial-gradient(circle at 40% 35%, #2a2a30, #050506 60%);
 }
 .duo-screen::after { /* the same glass reflection as the phones */
