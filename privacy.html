@@ -16,7 +16,7 @@
   <meta property="og:image" content="assets/og.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preload" href="assets/fonts/BricolageGrotesque.woff" as="font" type="font/woff" crossorigin>
-  <link rel="stylesheet" href="assets/css/site.css?v=8">
+  <link rel="stylesheet" href="assets/css/site.css?v=9">
   <script>
     document.documentElement.classList.add("js");
     setTimeout(function () { if (!window.VANYLLA_READY) document.documentElement.classList.remove("js"); }, 3000);
@@ -57,7 +57,7 @@
 
   <main id="main" class="page-main">
     <div class="wrap">
-      <section class="page-card glass glass-card reveal" aria-labelledby="page-title">
+      <section class="page-card page-card--prose glass glass-card reveal" aria-labelledby="page-title">
         <div class="app-icon">
           <div class="float">
             <img src="assets/icon/icon-512.jpg" width="512" height="512" alt="The Vanylla app icon.">
@@ -68,8 +68,61 @@
         <p class="eyebrow">Vanylla</p>
         <h1 class="display" id="page-title">Privacy Policy</h1>
         <p class="lede">How Vanylla handles your information.</p>
-        <div class="note">
-          <p>This page is being prepared and will be published before Vanylla launches.</p>
+        <dl class="doc-meta">
+          <div><dt>Effective date</dt><dd><time datetime="2026-11-25">25 November 2026</time></dd></div>
+          <div><dt>Developer</dt><dd>Vanylla</dd></div>
+          <div><dt>Contact</dt><dd>the support form at <a href="https://tally.so/r/o92qGb">https://tally.so/r/o92qGb</a>, or <a href="mailto:vanylla.app@gmail.com">vanylla.app@gmail.com</a></dd></div>
+          <div><dt>This policy</dt><dd><a href="https://davidkalaejian.github.io/Vanylla.app/privacy.html">https://davidkalaejian.github.io/<wbr>Vanylla.app/<wbr>privacy.html</a></dd></div>
+        </dl>
+        <div class="prose">
+          <h2 id="summary">Summary</h2>
+          <p>Vanylla is a photo and video editor for iPhone that does its work on your device. It has no account, and it collects no data: it does not send your photos, videos, audio, their metadata, your edits, or any record of how you use the app to us or to anyone else. The app contains no advertising, no analytics, no tracking and no third-party code.</p>
+          <p>Your files leave Vanylla only when you choose to export, share or save them to Photos, and they go only where you send them.</p>
+          <h2 id="on-your-device">What Vanylla keeps on your device</h2>
+          <p>To do its work, Vanylla keeps the following in its private storage on your device. None of it is sent to us.</p>
+          <ul>
+            <li>The photos and videos you import, with their audio and their metadata, which can include when and where they were taken and the camera that took them.</li>
+            <li>Your edits and their history, favourites, Recipes and how often you use them, collages, and export settings.</li>
+            <li>Files Vanylla makes from your media to show and edit it quickly: thumbnails, video posters and scrub frames, previews, depth maps, masks and Repair results.</li>
+            <li>Your Vanylla settings, and the answer Apple’s StoreKit last gave about your Pro unlock.</li>
+            <li>Records of Vanylla’s own problems: the most recent crash and hang reports iOS gives the app, and the most recent times a preview or an export failed (see “Diagnostics”).</li>
+          </ul>
+          <p>Editing, including any analysis of your photos, happens on your device. For Focus on a photo that has no depth information from the camera, Vanylla includes one machine-learning model, Distill-Any-Depth Small (built on Depth Anything V2 Small, and converted for Apple’s Core ML by Vanylla). Apple’s Core ML runs it on your device to estimate the photo’s depth, and Apple’s Vision framework, also on your device, looks for people in the photo. The photo, the depth map and any person mask stay in Vanylla’s private storage. Vanylla downloads no models and sends nothing anywhere to do this.</p>
+          <h2 id="photos-access">Photos access</h2>
+          <p>When you import from Photos, Vanylla first explains why it asks, then iOS asks you for access to your photo library. You may allow full access, allow access to only the photos and videos you pick (limited access), or decline. With full access you browse your library in Apple’s photo picker; with limited access Vanylla sees only the items you shared with it, and you can change that selection at any time. Vanylla copies the items you choose into its private library.</p>
+          <p>If you prefer not to give access, “Choose photos one at a time” opens Apple’s photo picker, which gives Vanylla only the items you select and needs no permission.</p>
+          <p>When you choose Save on the Export screen and Vanylla does not yet have access to your photo library, it asks for full access, so that it can add the edited copy to a “Vanylla” album there, which it creates once. If you decline, it asks only for permission to add photos and videos, and saves the copy without the album. Copies saved to Photos are yours to manage in Apple’s Photos app.</p>
+          <p>Vanylla asks for access only at these moments and when you tap Photos in Vanylla’s Settings → Privacy before it has ever asked, never when it starts. You can change Photos access at any time in iOS Settings. If you turn it off, Vanylla keeps editing the copies already in its library, but it cannot see or import anything new from your photo library.</p>
+          <h2 id="purchases">Purchases</h2>
+          <p>Vanylla offers one in-app purchase, the Pro unlock, through Apple’s StoreKit. Apple processes the purchase; we never receive your payment details. Vanylla reads Apple’s signed transaction information on your device to unlock Pro, restore it, or remove it after a refund or a Family Sharing change, and it sends that information nowhere.</p>
+          <p>Looking up the price, buying, restoring a purchase and checking for changes may need a connection to the App Store, which iOS makes for Vanylla. Pro, once unlocked, works offline.</p>
+          <h2 id="exports">Exports and sharing</h2>
+          <p>When you export, share or save to Photos, you choose the destination in Apple’s system screens, and the destination’s own privacy practices apply to the copy you send. Vanylla always sends an edited copy; it has no option to send the imported original.</p>
+          <p>Edited copies leave out location unless you turn on Include location in Settings → Export defaults; it is off until you turn it on. They include camera information (such as the camera model, lens and capture settings) unless you turn off Include camera info there.</p>
+          <h2 id="diagnostics">Diagnostics</h2>
+          <p>Settings → Help → Export diagnostics makes a plain-text file to help with a support request. It is made only when you tap it, and it leaves your device only if you send it yourself, through the share sheet, to a destination you choose.</p>
+          <p>It holds: when it was made; Vanylla’s version and build; the iOS version; the device model (such as “iPhone17,3”); the free storage space, in whole gigabytes; whether Pro is unlocked; how many photos, videos, collages, edited items, favourites and Recipes your library has; the sizes shown on the Storage page; counts of problems Vanylla recorded with its own files, imports and exports; the newest five crash and hang reports iOS gave Vanylla (when each happened, Vanylla’s and iOS’s versions, error codes, and the part of Vanylla’s code that was running); the newest twenty preview or export failures (when, where in the app, and an error code); and your Vanylla settings, including your Photos access level.</p>
+          <p>It never holds your photos, videos, audio or thumbnails, their metadata (dates, places, cameras), file names or locations, Recipe or collage names, or anything that identifies you or your device.</p>
+          <p>Separately, if you have turned on Share With App Developers in iOS Settings (Privacy &amp; Security → Analytics &amp; Improvements), Apple may share crash reports and usage statistics with us. Apple collects and shares that data under <a href="https://www.apple.com/legal/privacy/">its own privacy policy</a>; Vanylla itself sends nothing.</p>
+          <h2 id="support-requests">Support requests</h2>
+          <p>If you contact us through the support form or by email, we receive what you send. The form asks for your email address, the kind of issue, your Vanylla version and a description. The form is hosted by Tally (tally.so), so a request sent through it goes to Tally; email to <a href="mailto:vanylla.app@gmail.com">vanylla.app@gmail.com</a> is received through Google’s Gmail. We use what you send only to answer you, and we delete it if you ask.</p>
+          <h2 id="third-parties">Data collection and third parties</h2>
+          <p>The app contains no advertising, analytics or crash-reporting SDK, no remote logging, no developer server and no cloud image processing, and it does not track you across apps or websites. We do not use your photos, videos, audio, depth or face information, metadata or edits for advertising, tracking, profiling or training models.</p>
+          <p>Apple may process information through the system services you choose to use, including the App Store, Photos, iCloud, Files and the share sheet, under <a href="https://www.apple.com/legal/privacy/">Apple’s own privacy policy</a>.</p>
+          <p>Vanylla’s Privacy Policy and Support links open this website in Safari. The website uses no cookies, analytics or third-party content. It is hosted by GitHub Pages, and GitHub may log visitors’ IP addresses for security, as <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub’s privacy statement</a> describes.</p>
+          <h2 id="deleting">Keeping and deleting your data</h2>
+          <p>Your imported photos and videos and what you make with them stay in Vanylla’s library until you delete them or delete the app. Deleting an item in Vanylla removes it permanently, after you confirm; there is no Trash. Free up space, in Settings → Storage, removes only files Vanylla can make again (proxies, thumbnails, posters and other caches), never your originals or edits. Deleting the app removes everything Vanylla keeps on your device.</p>
+          <p>Like other apps’ data, Vanylla’s library is part of your device’s backups (iCloud Backup, or a backup on your computer) unless you turn backup off for Vanylla; the files Vanylla can make again are left out. Those backups are kept by Apple or by your computer under their own terms.</p>
+          <p>Deleting an item or the app does not delete copies you exported to Photos, Files or another app or service; delete those where you sent them.</p>
+          <p>Because Vanylla collects nothing and has no account or server, we hold no data about you to look up or delete, apart from any support request you send us.</p>
+          <h2 id="security">Security</h2>
+          <p>Vanylla uses the iOS app sandbox, system-controlled access to your photos and files, iOS file protection, careful reading of the files it opens, and safe saving of its own files to protect what it keeps. No storage is infallible: export or save to Photos any finished work you cannot afford to lose.</p>
+          <h2 id="children">Children</h2>
+          <p>Vanylla is a general-audience app. It collects no personal data from anyone, children included.</p>
+          <h2 id="changes">Changes to this policy</h2>
+          <p>We will update this policy when Vanylla’s behaviour or the law changes, and this page shows the date of the current version. If a change ever means that Vanylla collects data, the app, its App Store privacy label and this policy will say so before any collection begins, with your consent asked where the law requires it.</p>
+          <h2 id="contact">Contact</h2>
+          <p>Questions about this policy or about Vanylla’s data: the support form at <a href="https://tally.so/r/o92qGb">https://tally.so/r/o92qGb</a>, or <a href="mailto:vanylla.app@gmail.com">vanylla.app@gmail.com</a>.</p>
         </div>
         <div class="cta-row">
           <a class="btn-glass" href="index.html">

@@ -29,8 +29,8 @@ value) the badges point to the landing page's download section.
 |---|---|
 | `index.html` | The landing page. |
 | `support.html` | Placeholder until its content is published. |
-| `privacy.html` | Placeholder until its content is published. |
-| `terms.html` | Placeholder until its content is published. |
+| `privacy.html` | The Privacy Policy (T-141, approved by the owner 2026-11-25); its text's source is the app repository's `docs/05-delivery/privacy-policy-draft.md`. |
+| `terms.html` | The Terms of Use: Apple's standard licence agreement (T-141, D2103). |
 | `404.html` | GitHub Pages' not-found page. It sets a `<base>` at run time so its links work at any depth. |
 
 All links and asset paths are relative, so the site works under `https://<user>.github.io/Vanylla.app/` and
